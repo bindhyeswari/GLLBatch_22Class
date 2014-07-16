@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="base.css"/>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var img = new Image();
+            img.src = 'nature.jpg';
+            var canvas = document.getElementById('base');
+            var context = canvas.getContext('2d');
+
+            img.addEventListener('load', function () {
+                context.drawImage(img, 0, 0);
+            });
+
+
+
+            canvas.addEventListener('mousemove', function (event) {
+                var clip = {
+                    x: event.clientX - 100,
+                    y: event.clientY - 100,
+                    width: 200,
+                    height: 200
+                };
+
+                var display = {
+                    x: event.clientX - 50,
+                    y: event.clientY - 50,
+                    width: 100,
+                    height: 100
+                };
+
+                // context.clearRect(0, 0, 1280, 600);
+                // draw the base image
+                context.drawImage(img, 0, 0);
+                // draw the zoomed part
+                context.drawImage(canvas, clip.x, clip.y, clip.width, clip.height, display.x, display.y, display.width, display.height);
+
+
+            });
+        });
+
+
+    </script>
+</head>
+<body>
+    <canvas id="base" height="427" width="640"></canvas>
+</body>
+</html>

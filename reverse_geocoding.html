@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="base.css"/>
+    <style>
+        div#types {
+            margin: 5em 1em 1em 1em;
+            text-align: center;
+        }
+        span.type {
+            display: inline-block;
+            background-color: #eee;
+            color: #777;
+            text-shadow: 1px 1px 1px white;
+            border: 1px solid #aaa;
+            padding: 0.15em 0.50em;
+            margin: 0.35em;
+            cursor: pointer;
+            border-radius: 0.15em;
+        }
+        div#results {
+            background-color: #eee;
+            min-height: 5em;
+            min-width: 60%;
+            max-width: 70%;
+            margin: 0 auto;
+        }
+    </style>
+    <script src="u.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            var geocoder = new google.maps.Geocoder();
+            var latlng = new google.maps.LatLng(40.730885,-73.997383);
+            geocoder.geocode({'latLng': latlng}, function (results, code) {
+                if (code == google.maps.GeocoderStatus.OK) {
+                    console.log(results);
+                    var types = _.pluck(results[0]['address_components'], 'types');
+                    var long_names = _.pluck(results[0]['address_components'], 'long_names');
+
+                    console.log(long_names);
+                    console.log(types[0]);
+                    console.log(types[1]);
+                    // union expects a list of arrays, hence....
+                    var data = _.union.apply(null, types);
+                    // create spans based on data
+                    var div = document.getElementById('types');
+                    data.forEach(function(type){
+                        var span = document.createElement('span');
+                        span.className = 'type';
+                        span.innerHTML = type;
+                        div.appendChild(span);
+                    });
+
+                }
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <div id="types"></div>
+    <div id="results"></div>
+</body>
+</html>
